@@ -4,24 +4,65 @@
     android:layout_height="match_parent"
   
     android:orientation="vertical" >
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout 
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="首页"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="校园二手"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my"
+            />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#cccccc"
         />
-    <TextView
-        android:layout_width="wrap_content"
+     <RelativeLayout 
+        android:id="@+id/menu1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="loverletter"
-        /> 
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_mood_tab"
+            />
+    </RelativeLayout>
+     <RelativeLayout 
+        android:id="@+id/menu2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_find_tab"
+            />
+    </RelativeLayout>
+   <RelativeLayout 
+       android:id="@+id/menu3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_news_tab"
+            />
+    </RelativeLayout>
+    <RelativeLayout 
+        android:id="@+id/menu4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_setting_tab"
+            />
+    </RelativeLayout>
         
-        <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="谈天说地"
-        />
+     
 </LinearLayout>

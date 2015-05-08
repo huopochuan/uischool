@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="bg_title">#ec6941</color>
+    <color name="red">#e63547</color>
+    <color name="white">#ffffff</color>
 </resources>

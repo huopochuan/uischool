@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
+
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
@@ -24,6 +24,9 @@ public class sildmenu extends HorizontalScrollView {
 	
 	private boolean once=true;
 	
+	private boolean isopen=false;
+	
+	
 	
 	public sildmenu(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -33,7 +36,7 @@ public class sildmenu extends HorizontalScrollView {
 		    wm.getDefaultDisplay().getMetrics(dm);
 		    ScreenWidth=dm.widthPixels;
 	        
-		    paddingright=(int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,context.getResources().getDisplayMetrics());
+		    paddingright=(int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100,context.getResources().getDisplayMetrics());
 	
 		
 	    
@@ -47,27 +50,69 @@ public class sildmenu extends HorizontalScrollView {
 		this(context, null);
 		
 	}
+	
+	public void Toggle()
+	{
+		if(isopen)
+		{
+			this.smoothScrollTo(menuWidth, 0);
+			
+			isopen=false;
+			return;
+		}
+		else{
+			this.smoothScrollTo(0, 0);
+			isopen=true;
+			return;
+		}
+	}
+	
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		super.onInterceptTouchEvent( ev);
+		int x=(int)ev.getX();
+		if(x>50&&!isopen)
+		 {
+		    	return false;
+		 }
+		// super.onInterceptTouchEvent( ev);
+		 return  super.onInterceptTouchEvent( ev);
+		
+	}
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 	
+		super.onTouchEvent(ev);
 		int action=ev.getAction();
+		int x=(int)ev.getX();
 		switch(action)
 		{
 		  case MotionEvent.ACTION_DOWN:
-			break;
+			 if(x>50&&!isopen)
+		     {
+				  return false;
+			 }
+			  else{
+				  return true;
+			  }
+		
 		  case MotionEvent.ACTION_MOVE:
+			  
 		    break;
 		  case MotionEvent.ACTION_UP:
+			
 			if(this.getScrollX()>menuWidth/2)
 			{
 				this.smoothScrollTo(menuWidth,0);
+				isopen=false;
 			}
 			else{
 				this.smoothScrollTo(0,0);
+				isopen=true;
 			}
 			return true;
 		}
-		return super.onTouchEvent(ev);
+	    return true;
 	}
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -79,6 +124,9 @@ public class sildmenu extends HorizontalScrollView {
 		   content=(ViewGroup)warp.getChildAt(1);
 		   content.getLayoutParams().width=ScreenWidth;
 		   menuWidth=menu.getLayoutParams().width=ScreenWidth-paddingright;
+		 
+		   
+		   
 		   once=false;
 		}
 		
@@ -98,12 +146,11 @@ public class sildmenu extends HorizontalScrollView {
 	
 	@SuppressLint("NewApi") @Override
 	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-	    Log.v("Tag", ""+(l-menuWidth));
-		//content.setPadding(l-menuWidth,content.getPaddingTop(), content.getPaddingRight(), content.getPaddingBottom());
-		//content.invalidate();
-		//content.requestLayout();
-	//	content.getChildAt(0).scrollTo(menuWidth-l, 0);
+	  
+	
 		content.getChildAt(0).setTranslationX(l-menuWidth);
+		float alpha=l/menuWidth*0.5f+0.5f;
+		content.setAlpha(alpha);
 		super.onScrollChanged(l, t, oldl, oldt);
 		
 	}
