@@ -24,7 +24,7 @@ public class musicservice extends Service implements OnBufferingUpdateListener,
 	private Timer timer = new Timer();
 
 	private int state = 0;
-
+	private String id;
 
 	private TimerTask timertask = new TimerTask() {
 
@@ -36,25 +36,26 @@ public class musicservice extends Service implements OnBufferingUpdateListener,
 			}
 			if (player.isPlaying()) {
 				int position = player.getCurrentPosition();
-				
-				
-				
 				int dir = player.getDuration();
-				Log.v("pos", position+"");
-				Log.v("dir", dir+"");
 				Intent intent = new Intent();
 				intent.setAction("update");
-
-				intent.putExtra("jd", (position*100 / dir)+"");
-				
-
+				intent.putExtra("id", id);
+				intent.putExtra("jd", position / dir);
 				sendBroadcast(intent);
 			}
 		}
 
 	};
 
-
+//	private Handler handler = new Handler() {
+//
+//		public void handleMessage(android.os.Message msg) {
+//
+//			
+//
+//		}
+//
+//	};
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -67,7 +68,7 @@ public class musicservice extends Service implements OnBufferingUpdateListener,
 		super.onCreate();
 		try {
 			player = new MediaPlayer();
-			player.setAudioStreamType(AudioManager.STREAM_MUSIC); //
+			player.setAudioStreamType(AudioManager.STREAM_MUSIC); // 设置媒体流类型
 			player.setOnCompletionListener(this);
 			player.setOnPreparedListener(this);
 			player.setOnBufferingUpdateListener(this);
@@ -83,7 +84,7 @@ public class musicservice extends Service implements OnBufferingUpdateListener,
 	public int onStartCommand(Intent intent, int flags, int startId) {
 
 		final String url = intent.getStringExtra("url");
-
+		 id = intent.getStringExtra("id");
 
 		Log.v("setview", url);
 		if (state == 0) {
@@ -93,10 +94,10 @@ public class musicservice extends Service implements OnBufferingUpdateListener,
 				player.setDataSource(url);
 				player.prepare();
 			} catch (IllegalStateException e) {
-
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -120,7 +121,7 @@ public class musicservice extends Service implements OnBufferingUpdateListener,
 
 	@Override
 	public void onCompletion(MediaPlayer mp) {
-        
+
 	}
 
 	@Override
